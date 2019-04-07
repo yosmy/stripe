@@ -1,0 +1,33 @@
+{
+    "name": "yosmy/stripe",
+    "description": "",
+    "require": {
+        "php": ">=7.2",
+        "ext-mongodb": "*",
+        "ext-json": "*",
+        "yosmy/mongo": "@dev",
+        "yosmy/http": "@dev",
+        "yosmy/log": "@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Yosmy\\Stripe\\": [
+                "src/card",
+                "src/charge",
+                "src/communication",
+                "src/customer",
+                "src/exception",
+                "src/refund",
+                "src/token"
+            ]
+        }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://php.yosmy.com"
+        }
+    ],
+    "prefer-stable": true,
+    "minimum-stability": "dev"
+}
