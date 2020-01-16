@@ -70,17 +70,30 @@ class ExecuteRequest
             'params' => $params
         ];
 
-        try {
-            $response = $this->executeRequest->execute(
-                $method,
-                sprintf('https://api.stripe.com/v1/%s', $uri),
-                [
+        $options = [
+            'headers' => [
+                'Content-Type' => 'application/json'
+            ],
+            'json' => [
+                'method' => $method,
+                'uri' => sprintf('https://api.stripe.com/v1/%s', $uri),
+                'options' => [
                     'auth' => [
                         $this->secretKey,
                         '' // No need to set password
                     ],
                     'form_params' => $params
                 ]
+            ]
+        ];
+        $method = 'POST';
+        $uri = 'https://api.mundorecarga.com/forward-request';
+
+        try {
+            $response = $this->executeRequest->execute(
+                $method,
+                $uri,
+                $options
             );
 
             $response = $response->getBody();
