@@ -1,5 +1,5 @@
 {
-    "name": "yosmy/stripe",
+    "name": "yosmy/stripe-payment-gateway",
     "description": "",
     "require": {
         "php": ">=7.2",
