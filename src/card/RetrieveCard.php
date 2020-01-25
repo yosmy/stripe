@@ -1,6 +1,8 @@
 <?php
 
-namespace Yosmy\Stripe;
+namespace Yosmy\Payment\Gateway\Stripe;
+
+use Yosmy\Payment\Gateway;
 
 /**
  * @di\service()
@@ -25,9 +27,9 @@ class RetrieveCard
      * @param string $customer
      * @param string $card
      *
-     * @return Card
+     * @return Gateway\Card
      *
-     * @throws ApiException
+     * @throws Gateway\ApiException
      */
     public function retrieve(
         string $customer,
@@ -38,16 +40,13 @@ class RetrieveCard
                 ExecuteRequest::METHOD_GET,
                 sprintf('customers/%s/sources/%s', $customer, $card)
             );
-        } catch (ApiException $e) {
+        } catch (Gateway\ApiException $e) {
             throw $e;
         }
 
-        return new Card(
+        return new Gateway\Card(
             $response['id'],
-            $response['name'],
-            $response['last4'],
-            $response['fingerprint'],
-            $response['country']
+            $response['last4']
         );
     }
 }

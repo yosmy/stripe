@@ -1,11 +1,15 @@
 <?php
 
-namespace Yosmy\Stripe;
+namespace Yosmy\Payment\Gateway\Stripe;
+
+use Yosmy\Payment\Gateway;
 
 /**
- * @di\service()
+ * @di\service({
+ *     tags: ['yosmy.payment.gateway.add_customer']
+ * })
  */
-class AddCustomer
+class AddCustomer implements Gateway\AddCustomer
 {
     /**
      * @var ExecuteRequest
@@ -22,23 +26,29 @@ class AddCustomer
     }
 
     /**
-     * @return Customer
-     *
-     * @throws ApiException
+     * {@inheritDoc}
      */
     public function add()
     {
         try {
             $response = $this->executeRequest->execute(
                 ExecuteRequest::METHOD_POST,
-                'customers'
+                'customers',
+                []
             );
 
-            return new Customer(
+            return new Gateway\Customer(
                 $response['id']
             );
-        } catch (ApiException $e) {
+        } catch (Gateway\ApiException $e) {
             throw $e;
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function identify() {
+        return 'stripe';
     }
 }

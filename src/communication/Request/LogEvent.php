@@ -1,6 +1,6 @@
 <?php
 
-namespace Yosmy\Stripe\Request;
+namespace Yosmy\Payment\Gateway\Stripe\Request;
 
 use Yosmy\Mongo\DuplicatedKeyException;
 use LogicException;

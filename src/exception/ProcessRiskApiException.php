@@ -1,21 +1,22 @@
 <?php
 
-namespace Yosmy\Stripe;
+namespace Yosmy\Payment\Gateway\Stripe;
+
+use Yosmy\Payment\Gateway;
 
 /**
  * @di\service({
  *     tags: [
- *         'yosmy.stripe.execute_charge_with_token.exception_throwed',
- *         'yosmy.stripe.execute_charge_with_card.exception_throwed'
+ *         'yosmy.payment.gateway.stripe.execute_charge.exception_throwed'
  *     ]
  * })
  */
-class ProcessRiskApiException implements ProcessApiException
+class ProcessRiskApiException implements Gateway\ProcessApiException
 {
     /**
      * {@inheritDoc}
      */
-    public function process(ApiException $e)
+    public function process(Gateway\ApiException $e)
     {
         if (
             !isset($e->getResponse()['outcome'])
@@ -25,6 +26,6 @@ class ProcessRiskApiException implements ProcessApiException
             return;
         }
 
-        throw new RiskException();
+        throw new Gateway\RiskException();
     }
 }

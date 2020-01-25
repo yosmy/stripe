@@ -1,6 +1,6 @@
 <?php
 
-namespace Yosmy\Stripe;
+namespace Yosmy\Payment\Gateway\Stripe;
 
 use JsonSerializable;
 

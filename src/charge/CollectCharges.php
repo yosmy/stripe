@@ -1,6 +1,8 @@
 <?php
 
-namespace Yosmy\Stripe;
+namespace Yosmy\Payment\Gateway\Stripe;
+
+use Yosmy\Payment\Gateway;
 
 /**
  * @di\service()
@@ -25,9 +27,9 @@ class CollectCharges
      * @param int $from
      * @param int $to
      *
-     * @return Charge[]
+     * @return Gateway\Charge[]
      *
-     * @throws ApiException
+     * @throws Gateway\ApiException
      */
     public function collect(
         ?int $from,
@@ -64,9 +66,9 @@ class CollectCharges
      * @param int    $to
      * @param string $after
      *
-     * @return Charge[]
+     * @return Gateway\Charge[]
      *
-     * @throws ApiException
+     * @throws Gateway\ApiException
      */
     public function collectStartingAfter(
         ?int $from,
@@ -93,19 +95,15 @@ class CollectCharges
                 'charges',
                 $criteria
             );
-        } catch (ApiException $e) {
+        } catch (Gateway\ApiException $e) {
             throw $e;
         }
 
         $charges = [];
 
         foreach ($response['data'] as $charge) {
-            $charges[] = new Charge(
+            $charges[] = new Gateway\Charge(
                 $charge['id'],
-                $charge['customer'],
-                $charge['payment_method_details']['card']['fingerprint'],
-                $charge['payment_method_details']['card']['last4'],
-                $charge['amount'],
                 $charge['created']
             );
         }

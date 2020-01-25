@@ -1,6 +1,6 @@
 <?php
 
-namespace Yosmy\Stripe\Request;
+namespace Yosmy\Payment\Gateway\Stripe\Request;
 
 use Yosmy\Mongo\ManageCollection;
 
@@ -27,7 +27,7 @@ class ManageEventCollection extends ManageCollection
         parent::__construct(
             $uri,
             $db,
-            'yosmy_stripe_request_events',
+            'yosmy_payment_gateway_stripe_request_events',
             [
                 'typeMap' => array(
                     'root' => Event::class,

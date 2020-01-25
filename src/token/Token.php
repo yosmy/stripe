@@ -1,8 +1,9 @@
 <?php
 
-namespace Yosmy\Stripe;
+namespace Yosmy\Payment\Gateway\Stripe;
 
 use JsonSerializable;
+use Yosmy\Payment\Gateway;
 
 class Token implements JsonSerializable
 {
@@ -12,17 +13,17 @@ class Token implements JsonSerializable
     private $id;
 
     /**
-     * @var Card
+     * @var Gateway\Card
      */
     private $card;
 
     /**
      * @param string $id
-     * @param Card $card
+     * @param Gateway\Card $card
      */
     public function __construct(
         string $id,
-        Card $card
+        Gateway\Card $card
     ) {
         $this->id = $id;
         $this->card = $card;
@@ -37,9 +38,9 @@ class Token implements JsonSerializable
     }
 
     /**
-     * @return Card
+     * @return Gateway\Card
      */
-    public function getCard(): Card
+    public function getCard(): Gateway\Card
     {
         return $this->card;
     }

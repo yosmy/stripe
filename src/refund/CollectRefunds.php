@@ -1,6 +1,8 @@
 <?php
 
-namespace Yosmy\Stripe;
+namespace Yosmy\Payment\Gateway\Stripe;
+
+use Yosmy\Payment\Gateway;
 
 /**
  * @di\service()
@@ -27,7 +29,7 @@ class CollectRefunds
      *
      * @return Refund[]
      *
-     * @throws ApiException
+     * @throws Gateway\ApiException
      */
     public function collect(
         ?int $from,
@@ -49,7 +51,7 @@ class CollectRefunds
                 'refunds',
                 $criteria
             );
-        } catch (ApiException $e) {
+        } catch (Gateway\ApiException $e) {
             throw $e;
         }
 

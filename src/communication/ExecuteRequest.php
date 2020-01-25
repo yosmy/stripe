@@ -1,9 +1,9 @@
 <?php
 
-namespace Yosmy\Stripe;
+namespace Yosmy\Payment\Gateway\Stripe;
 
-use Yosmy\Http\Exception;
 use Yosmy\Http;
+use Yosmy\Payment\Gateway;
 
 /**
  * @di\service({
@@ -57,7 +57,7 @@ class ExecuteRequest
      *
      * @return array
      *
-     * @throws ApiException
+     * @throws Gateway\ApiException
      */
     public function execute(
         string $method,
@@ -70,30 +70,17 @@ class ExecuteRequest
             'params' => $params
         ];
 
-        $options = [
-            'headers' => [
-                'Content-Type' => 'application/json'
-            ],
-            'json' => [
-                'method' => $method,
-                'uri' => sprintf('https://api.stripe.com/v1/%s', $uri),
-                'options' => [
+        try {
+            $response = $this->executeRequest->execute(
+                $method,
+                sprintf('https://api.stripe.com/v1/%s', $uri),
+                [
                     'auth' => [
                         $this->secretKey,
                         '' // No need to set password
                     ],
                     'form_params' => $params
                 ]
-            ]
-        ];
-        $method = 'POST';
-        $uri = 'https://api.mundorecarga.com/forward-request';
-
-        try {
-            $response = $this->executeRequest->execute(
-                $method,
-                $uri,
-                $options
             );
 
             $response = $response->getBody();
@@ -104,7 +91,7 @@ class ExecuteRequest
             );
 
             return $response;
-        } catch (Exception $e) {
+        } catch (Http\Exception $e) {
             $response = $e->getResponse()['error'];
 
             $this->logEvent->log(
@@ -112,7 +99,7 @@ class ExecuteRequest
                 $response
             );
 
-            throw new ApiException($response);
+            throw new Gateway\ApiException($response);
         }
     }
 }

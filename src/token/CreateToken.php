@@ -1,8 +1,8 @@
 <?php
 
-namespace Yosmy\Stripe;
+namespace Yosmy\Payment\Gateway\Stripe;
 
-use LogicException;
+use Yosmy\Payment\Gateway;
 
 /**
  * @di\service()
@@ -15,57 +15,36 @@ class CreateToken
     private $executeRequest;
 
     /**
-     * @var ProcessApiException[]
-     */
-    private $processExceptionServices;
-
-    /**
-     * @di\arguments({
-     *     processExceptionServices: '#yosmy.stripe.create_token.exception_throwed',
-     * })
-     *
-     * @param ExecuteRequest               $executeRequest
-     * @param ProcessApiException[] $processExceptionServices
+     * @param ExecuteRequest $executeRequest
      */
     public function __construct(
-        ExecuteRequest $executeRequest,
-        ?array $processExceptionServices
+        ExecuteRequest $executeRequest
     ) {
         $this->executeRequest = $executeRequest;
-        $this->processExceptionServices = $processExceptionServices;
     }
 
     /**
-     * @param string|null $name
-     * @param string      $number
-     * @param string      $month
-     * @param string      $year
-     * @param string      $cvc
-     * @param string|null $zip
+     * @param string $number
+     * @param string $month
+     * @param string $year
+     * @param string $cvc
      *
      * @return Token
      *
-     * @throws FieldException|FundsException|IssuerException|RiskException|FraudException
+     * @throws Gateway\ApiException
      */
     public function create(
-        ?string $name,
         string $number,
         string $month,
         string $year,
-        string $cvc,
-        ?string $zip
+        string $cvc
     ) {
         $params = [
-            'name' => $name,
             'number' => $number,
             'exp_month' => $month,
             'exp_year' => $year,
             'cvc' => $cvc
         ];
-
-        if ($zip !== null) {
-            $params['address_zip'] = $zip;
-        }
 
         try {
             $response = $this->executeRequest->execute(
@@ -78,32 +57,13 @@ class CreateToken
 
             return new Token(
                 $response['id'],
-                new Card(
+                new Gateway\Card(
                     $response['card']['id'],
-                    $response['card']['name'],
-                    $response['card']['last4'],
-                    $response['card']['fingerprint'],
-                    $response['card']['country']
+                    $response['card']['last4']
                 )
             );
-        } catch (ApiException $e) {
-            foreach ($this->processExceptionServices as $processExceptionThrowedService) {
-                try {
-                    $processExceptionThrowedService->process($e);
-                } catch (FieldException $e) {
-                    throw $e;
-                } catch (FundsException $e) {
-                    throw $e;
-                } catch (IssuerException $e) {
-                    throw $e;
-                } catch (RiskException $e) {
-                    throw $e;
-                } catch (FraudException $e) {
-                    throw $e;
-                }
-            }
-
-            throw new LogicException(null, null, $e);
+        } catch (Gateway\ApiException $e) {
+            throw $e;
         }
     }
 }

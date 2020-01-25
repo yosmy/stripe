@@ -1,6 +1,8 @@
 <?php
 
-namespace Yosmy\Stripe;
+namespace Yosmy\Payment\Gateway\Stripe;
+
+use Yosmy\Payment\Gateway;
 
 /**
  * @di\service()
@@ -24,9 +26,9 @@ class RetrieveCharge
     /**
      * @param string $id
      *
-     * @return Charge
+     * @return Gateway\Charge
      *
-     * @throws ApiException
+     * @throws Gateway\ApiException
      */
     public function retrieve(
         string $id
@@ -36,17 +38,13 @@ class RetrieveCharge
                 ExecuteRequest::METHOD_GET,
                 sprintf('charges/%s', $id)
             );
-        } catch (ApiException $e) {
+        } catch (Gateway\ApiException $e) {
             throw $e;
         }
 
-        return new Charge(
+        return new Gateway\Charge(
             $response['id'],
-            $response['customer'],
-            $response['payment_method_details']['card']['fingerprint'],
-            $response['payment_method_details']['card']['last4'],
-            $response['amount'],
-            $response['charge']
+            $response['created']
         );
     }
 }

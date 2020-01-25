@@ -1,6 +1,6 @@
 <?php
 
-namespace Yosmy\Stripe\Request;
+namespace Yosmy\Payment\Gateway\Stripe\Request;
 
 use JsonSerializable;
 use MongoDB\BSON\Persistable;

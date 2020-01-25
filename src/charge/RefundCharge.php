@@ -1,13 +1,15 @@
 <?php
 
-namespace Yosmy\Stripe;
+namespace Yosmy\Payment\Gateway\Stripe;
+
+use Yosmy\Payment\Gateway;
 
 /**
  * @di\service({
- *     private: true
+ *     tags: ['yosmy.payment.gateway.refund_charge']
  * })
  */
-class RefundCharge
+class RefundCharge implements Gateway\RefundCharge
 {
     /**
      * @var ExecuteRequest
@@ -24,9 +26,7 @@ class RefundCharge
     }
 
     /**
-     * @param string $id
-     *
-     * @throws ApiException
+     * {@inheritDoc}
      */
     public function refund(
         string $id
@@ -39,8 +39,15 @@ class RefundCharge
                     'charge' => $id
                 ]
             );
-        } catch (ApiException $e) {
+        } catch (Gateway\ApiException $e) {
             throw $e;
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function identify() {
+        return 'stripe';
     }
 }

@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cd7b2c1f72a8635d915fd2832de62904",
+    "content-hash": "0f766144d4bbf09eea30866ca613c77a",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
-            "version": "6.5.0",
+            "version": "6.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "dbc2bc3a293ed6b1ae08a3651e2bfd213d19b6a5"
+                "reference": "43ece0e75098b7ecd8d13918293029e555a50f82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/dbc2bc3a293ed6b1ae08a3651e2bfd213d19b6a5",
-                "reference": "dbc2bc3a293ed6b1ae08a3651e2bfd213d19b6a5",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/43ece0e75098b7ecd8d13918293029e555a50f82",
+                "reference": "43ece0e75098b7ecd8d13918293029e555a50f82",
                 "shasum": ""
             },
             "require": {
@@ -71,7 +71,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2019-12-07T18:20:45+00:00"
+            "time": "2019-12-23T11:57:10+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -197,16 +197,16 @@
         },
         {
             "name": "mongodb/mongodb",
-            "version": "1.5.1",
+            "version": "1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mongodb/mongo-php-library.git",
-                "reference": "32cfb9bbd0bc60a5a13ca9eab7e4803226a5d4a7"
+                "reference": "9480f994de9f70e2ae5a946b21e6fc04bf5a6c3c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mongodb/mongo-php-library/zipball/32cfb9bbd0bc60a5a13ca9eab7e4803226a5d4a7",
-                "reference": "32cfb9bbd0bc60a5a13ca9eab7e4803226a5d4a7",
+                "url": "https://api.github.com/repos/mongodb/mongo-php-library/zipball/9480f994de9f70e2ae5a946b21e6fc04bf5a6c3c",
+                "reference": "9480f994de9f70e2ae5a946b21e6fc04bf5a6c3c",
                 "shasum": ""
             },
             "require": {
@@ -261,7 +261,7 @@
                 "mongodb",
                 "persistence"
             ],
-            "time": "2019-10-09T14:34:41+00:00"
+            "time": "2019-11-15T08:21:00+00:00"
         },
         {
             "name": "psr/http-message",
@@ -358,13 +358,13 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "git@github.com:yosmy/http.git",
-                "reference": "afeb1752423df514bcb5a270c4c0011b19becd83"
+                "url": "https://github.com/yosmy/http.git",
+                "reference": "9c7a6a503dd0d059e2f1651baa3af37deaeb7cd7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yosmy/http/zipball/afeb1752423df514bcb5a270c4c0011b19becd83",
-                "reference": "afeb1752423df514bcb5a270c4c0011b19becd83",
+                "url": "https://api.github.com/repos/yosmy/http/zipball/9c7a6a503dd0d059e2f1651baa3af37deaeb7cd7",
+                "reference": "9c7a6a503dd0d059e2f1651baa3af37deaeb7cd7",
                 "shasum": ""
             },
             "require": {
@@ -384,14 +384,14 @@
                 "source": "https://github.com/yosmy/http/tree/master",
                 "issues": "https://github.com/yosmy/http/issues"
             },
-            "time": "2019-12-10T17:38:22+00:00"
+            "time": "2020-01-27T22:54:00+00:00"
         },
         {
             "name": "yosmy/log",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "git@github.com:yosmy/log.git",
+                "url": "https://github.com/yosmy/log.git",
                 "reference": "374143d0b8f1e0111018d57f981a95b2e18e5c20"
             },
             "dist": {
@@ -431,13 +431,13 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "git@github.com:yosmy/mongo-aggregate.git",
-                "reference": "013dc7796da205039711574a9dd0dc6390c2cf7c"
+                "url": "https://github.com/yosmy/mongo.git",
+                "reference": "88548525758acb022dc62b2e22e8919ccffe863e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yosmy/mongo-aggregate/zipball/013dc7796da205039711574a9dd0dc6390c2cf7c",
-                "reference": "013dc7796da205039711574a9dd0dc6390c2cf7c",
+                "url": "https://api.github.com/repos/yosmy/mongo/zipball/88548525758acb022dc62b2e22e8919ccffe863e",
+                "reference": "88548525758acb022dc62b2e22e8919ccffe863e",
                 "shasum": ""
             },
             "require": {
@@ -453,15 +453,59 @@
                     ]
                 }
             },
-            "time": "2019-05-08T17:34:48+00:00"
+            "support": {
+                "source": "https://github.com/yosmy/mongo/tree/master",
+                "issues": "https://github.com/yosmy/mongo/issues"
+            },
+            "time": "2020-01-26T05:45:03+00:00"
+        },
+        {
+            "name": "yosmy/payment-gateway",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yosmy/payment-gateway.git",
+                "reference": "65e5b8acfd2d0a8633921c27e0781b252e280673"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yosmy/payment-gateway/zipball/65e5b8acfd2d0a8633921c27e0781b252e280673",
+                "reference": "65e5b8acfd2d0a8633921c27e0781b252e280673",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=7.2",
+                "yosmy/http": "@dev",
+                "yosmy/log": "@dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Yosmy\\Payment\\Gateway\\": [
+                        "src/card",
+                        "src/charge",
+                        "src/customer",
+                        "src/exception",
+                        "src/util"
+                    ]
+                }
+            },
+            "support": {
+                "source": "https://github.com/yosmy/payment-gateway/tree/master",
+                "issues": "https://github.com/yosmy/payment-gateway/issues"
+            },
+            "time": "2020-01-26T23:27:02+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "yosmy/mongo": 20,
         "yosmy/http": 20,
-        "yosmy/log": 20
+        "yosmy/log": 20,
+        "yosmy/payment-gateway": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

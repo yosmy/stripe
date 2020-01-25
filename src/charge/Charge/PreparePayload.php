@@ -1,6 +1,6 @@
 <?php
 
-namespace Yosmy\Stripe\Charge;
+namespace Yosmy\Payment\Gateway\Stripe\Charge;
 
 /**
  * @di\service()

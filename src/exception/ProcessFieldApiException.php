@@ -1,21 +1,22 @@
 <?php
 
-namespace Yosmy\Stripe;
+namespace Yosmy\Payment\Gateway\Stripe;
+
+use Yosmy\Payment\Gateway;
 
 /**
  * @di\service({
  *     tags: [
- *         'yosmy.stripe.create_token.exception_throwed',
- *         'yosmy.stripe.add_card.exception_throwed'
+ *         'yosmy.payment.gateway.stripe.add_card.exception_throwed'
  *     ]
  * })
  */
-class ProcessFieldApiException implements ProcessApiException
+class ProcessFieldApiException implements Gateway\ProcessApiException
 {
     /**
      * {@inheritDoc}
      */
-    public function process(ApiException $e)
+    public function process(Gateway\ApiException $e)
     {
         if ($e->getResponse()['type'] != 'card_error') {
             return;
@@ -50,6 +51,6 @@ class ProcessFieldApiException implements ProcessApiException
                 return;
         }
 
-        throw new FieldException($field);
+        throw new Gateway\FieldException($field);
     }
 }

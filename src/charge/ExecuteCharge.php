@@ -1,13 +1,16 @@
 <?php
 
-namespace Yosmy\Stripe;
+namespace Yosmy\Payment\Gateway\Stripe;
 
+use Yosmy\Payment\Gateway;
 use LogicException;
 
 /**
- * @di\service()
+ * @di\service({
+ *     tags: ['yosmy.payment.gateway.execute_charge']
+ * })
  */
-class ExecuteCharge
+class ExecuteCharge implements Gateway\ExecuteCharge
 {
     /**
      * @var Charge\PreparePayload
@@ -20,18 +23,18 @@ class ExecuteCharge
     private $executeRequest;
 
     /**
-     * @var ProcessApiException[]
+     * @var Gateway\ProcessApiException[]
      */
     private $processExceptionServices;
 
     /**
      * @di\arguments({
-     *     processExceptionServices: '#yosmy.stripe.execute_charge_with_card.exception_throwed',
+     *     processExceptionServices: '#yosmy.payment.gateway.stripe.execute_charge.exception_throwed',
      * })
      *
-     * @param Charge\PreparePayload $preparePayload
-     * @param ExecuteRequest           $executeRequest
-     * @param ProcessApiException[] $processExceptionServices
+     * @param Charge\PreparePayload         $preparePayload
+     * @param ExecuteRequest                $executeRequest
+     * @param Gateway\ProcessApiException[] $processExceptionServices
      */
     public function __construct(
         Charge\PreparePayload $preparePayload,
@@ -44,17 +47,9 @@ class ExecuteCharge
     }
 
     /**
-     * @param string $customer
-     * @param string $card
-     * @param int    $amount // In cents @see https://stripe.com/docs/currencies#zero-decimal
-     * @param string $description Internal description
-     * @param string $statement   User's credit card statement
-     *
-     * @return Charge
-     * 
-     * @throws FundsException|IssuerException|RiskException|FraudException
+     * {@inheritDoc}
      */
-    public function executeWithCard(
+    public function execute(
         string $customer,
         string $card,
         int $amount,
@@ -74,108 +69,35 @@ class ExecuteCharge
         );
 
         try {
-            $response = $this->execute(
-                $params
-            );
-
-            return new Charge(
-                $response['id'],
-                $response['customer'],
-                $response['payment_method_details']['card']['fingerprint'],
-                $response['payment_method_details']['card']['last4'],
-                $response['amount'],
-                $response['created']
-            );
-        } catch (ApiException $e) {
-            foreach ($this->processExceptionServices as $processExceptionThrowedService) {
-                try {
-                    $processExceptionThrowedService->process($e);
-                } catch (FieldException $e) {
-                    throw new LogicException(null, null, $e);
-                } catch (FundsException|IssuerException|RiskException|FraudException $e) {
-                    throw $e;
-                }
-            }
-
-            throw new LogicException(null, null, $e);
-        }
-    }
-
-    /**
-     * @param string $token
-     * @param int    $amount // In cents @see https://stripe.com/docs/currencies#zero-decimal
-     * @param string $description Internal description
-     * @param string $statement   User's credit card statement
-     *
-     * @return Charge
-     *
-     * @throws FundsException|IssuerException|RiskException|FraudException
-     */
-    public function executeWithToken(
-        string $token,
-        int $amount,
-        string $description,
-        string $statement
-    ) {
-        $params = array_merge(
-            [
-                'source' => $token
-            ],
-            $this->preparePayload->prepare(
-                $amount,
-                $description,
-                $statement
-            )
-        );
-
-        try {
-            $response = $this->execute(
-                $params
-            );
-
-            return new Charge(
-                $response['id'],
-                $response['customer'],
-                $response['payment_method_details']['card']['fingerprint'],
-                $response['payment_method_details']['card']['last4'],
-                $response['amount'],
-                $response['created']
-            );
-        } catch (ApiException $e) {
-            foreach ($this->processExceptionServices as $processExceptionThrowedService) {
-                try {
-                    $processExceptionThrowedService->process($e);
-                } catch (FieldException $e) {
-                    throw new LogicException(null, null, $e);
-                } catch (FundsException|IssuerException|RiskException|FraudException $e) {
-                    throw $e;
-                }
-            }
-
-            throw new LogicException(null, null, $e);
-        }
-    }
-
-    /**
-     * @param array $payload
-     *
-     * @return array
-     *
-     * @throws ApiException
-     */
-    private function execute(
-        array $payload
-    ) {
-        try {
             $response = $this->executeRequest->execute(
                 ExecuteRequest::METHOD_POST,
                 'charges',
-                $payload
+                $params
             );
-        } catch (ApiException $e) {
-            throw $e;
-        }
 
-        return $response;
+            return new Gateway\Charge(
+                $response['id'],
+                $response['created']
+            );
+        } catch (Gateway\ApiException $e) {
+            foreach ($this->processExceptionServices as $service) {
+                try {
+                    $service->process($e);
+                } catch (Gateway\FundsException|Gateway\IssuerException|Gateway\RiskException|Gateway\FraudException $e) {
+                    throw $e;
+                } catch (Gateway\FieldException $e) {
+                    throw new LogicException(null, null, $e);
+                }
+            }
+
+            throw new LogicException(null, null, $e);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function identify() {
+        return 'stripe';
     }
 }

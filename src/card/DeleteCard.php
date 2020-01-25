@@ -1,11 +1,15 @@
 <?php
 
-namespace Yosmy\Stripe;
+namespace Yosmy\Payment\Gateway\Stripe;
+
+use Yosmy\Payment\Gateway;
 
 /**
- * @di\service()
+ * @di\service({
+ *     tags: ['yosmy.payment.gateway.delete_card']
+ * })
  */
-class DeleteCard
+class DeleteCard implements Gateway\DeleteCard
 {
     /**
      * @var ExecuteRequest
@@ -22,10 +26,7 @@ class DeleteCard
     }
 
     /**
-     * @param string $customer
-     * @param string $card
-     *
-     * @throws ApiException
+     * {@inheritDoc}
      */
     public function delete(
         string $customer,
@@ -36,8 +37,15 @@ class DeleteCard
                 ExecuteRequest::METHOD_DELETE,
                 sprintf('customers/%s/sources/%s', $customer, $card)
             );
-        } catch (ApiException $e) {
+        } catch (Gateway\ApiException $e) {
             throw $e;
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function identify() {
+        return 'stripe';
     }
 }

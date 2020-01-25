@@ -7,11 +7,12 @@
         "ext-json": "*",
         "yosmy/mongo": "@dev",
         "yosmy/http": "@dev",
-        "yosmy/log": "@dev"
+        "yosmy/log": "@dev",
+        "yosmy/payment-gateway": "@dev"
     },
     "autoload": {
         "psr-4": {
-            "Yosmy\\Stripe\\": [
+            "Yosmy\\Payment\\Gateway\\Stripe\\": [
                 "src/card",
                 "src/charge",
                 "src/communication",
